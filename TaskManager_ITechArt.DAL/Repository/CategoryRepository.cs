@@ -9,52 +9,52 @@ using TaskManager_ITechArt.DAL.Entities;
 
 namespace TaskManager_ITechArt.DAL.Repository
 {
-    public class UserRepository
+    public class CategoryRepository
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public List<User> GetUsers()
+        public List<Category> GetCategory()
         {
-            List<User> users = new List<User>();
+            List<Category> categorys = new List<Category>();
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                users = db.Query<User>("SELECT *FROM user").ToList();
+                categorys = db.Query<Category>("SELECT *FROM category").ToList();
             }
-            return users;
+            return categorys;
         }
-        public User Get(int id)
+        public Category Get(int id)
         {
-            User user = null;
+            Category category = null;
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                user = db.Query<User>("SELECT *FROM user Where user_id=@id", new { id }).FirstOrDefault();
+                category = db.Query<Category>("SELECT *FROM log Where category_id=@id", new { id }).FirstOrDefault();
             }
-            return user;
+            return category;
         }
-        public User Create(User user)
+        public Category Create(Category category)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "INSERT INTO user (login, password,mail,is_admin,user_details) VALUES(@login, @password,@mail,@is_admin,@user_details);"+
+                var sqlQuery = "INSERT INTO category (category_name,category_details) VALUES(@category_name,@category_details);" +
                     " SELECT CAST(SCOPE_IDENTITY() as int)";
-                int userId = db.Query<int>(sqlQuery, user).FirstOrDefault();
-                user.user_id= userId;
+                int categoryId = db.Query<int>(sqlQuery, category).FirstOrDefault();
+                category.category_id= categoryId;
             }
-            return user;
+            return category;
         }
         public void Delete(int id)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "DELETE FROM user Where user_id=@id";
+                var sqlQuery = "DELETE FROM category Where category_id=@id";
                 db.Execute(sqlQuery, new { id });
             }
         }
-        public void Update(User user)
+        public void Update(Category category)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "Update user set login=@login, password=@password,mail=@mail,is_admin=@is_admin,user_details=@user_details";
-                db.Execute(sqlQuery, user);
+                var sqlQuery = "Update category set category_name=@category_name,category_details=@category_details";
+                db.Execute(sqlQuery, category);
             }
         }
     }

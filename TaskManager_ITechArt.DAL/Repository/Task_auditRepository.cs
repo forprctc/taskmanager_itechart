@@ -9,52 +9,52 @@ using TaskManager_ITechArt.DAL.Entities;
 
 namespace TaskManager_ITechArt.DAL.Repository
 {
-    public class UserRepository
+    public class Task_auditRepository
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public List<User> GetUsers()
+        public List<Task_audit> GetTask_audits()
         {
-            List<User> users = new List<User>();
+            List<Task_audit> task_audits = new List<Task_audit>();
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                users = db.Query<User>("SELECT *FROM user").ToList();
+                task_audits = db.Query<Task_audit>("SELECT *FROM task_audit").ToList();
             }
-            return users;
+            return task_audits;
         }
-        public User Get(int id)
+        public Task_audit Get(int id)
         {
-            User user = null;
+            Task_audit task_audit = null;
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                user = db.Query<User>("SELECT *FROM user Where user_id=@id", new { id }).FirstOrDefault();
+                task_audit = db.Query<Task_audit>("SELECT *FROM Task_audit Where task_audit_id=@id", new { id }).FirstOrDefault();
             }
-            return user;
+            return task_audit;
         }
-        public User Create(User user)
+        public Task_audit Create(Task_audit task_audit)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "INSERT INTO user (login, password,mail,is_admin,user_details) VALUES(@login, @password,@mail,@is_admin,@user_details);"+
+                var sqlQuery = "INSERT INTO task_audit (user_id, status,queue) VALUES(@user_id, @status,@queue);" +
                     " SELECT CAST(SCOPE_IDENTITY() as int)";
-                int userId = db.Query<int>(sqlQuery, user).FirstOrDefault();
-                user.user_id= userId;
+                int task_auditId = db.Query<int>(sqlQuery, task_audit).FirstOrDefault();
+                task_audit.ta_id = task_auditId;
             }
-            return user;
+            return task_audit;
         }
         public void Delete(int id)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "DELETE FROM user Where user_id=@id";
+                var sqlQuery = "DELETE FROM task_audit Where ta_id=@id";
                 db.Execute(sqlQuery, new { id });
             }
         }
-        public void Update(User user)
+        public void Update(Task_audit task_audit)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "Update user set login=@login, password=@password,mail=@mail,is_admin=@is_admin,user_details=@user_details";
-                db.Execute(sqlQuery, user);
+                var sqlQuery = "Update task_audit set user_id=@user_id,status=@status,queue=@queue";
+                db.Execute(sqlQuery, task_audit);
             }
         }
     }

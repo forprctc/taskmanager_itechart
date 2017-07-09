@@ -9,52 +9,52 @@ using TaskManager_ITechArt.DAL.Entities;
 
 namespace TaskManager_ITechArt.DAL.Repository
 {
-    public class UserRepository
+    public class LogRepository
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public List<User> GetUsers()
+        public List<Log> GetLogs()
         {
-            List<User> users = new List<User>();
+            List<Log> logs = new List<Log>();
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                users = db.Query<User>("SELECT *FROM user").ToList();
+                logs = db.Query<Log>("SELECT *FROM log").ToList();
             }
-            return users;
+            return logs;
         }
-        public User Get(int id)
+        public Log Get(int id)
         {
-            User user = null;
+            Log log = null;
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                user = db.Query<User>("SELECT *FROM user Where user_id=@id", new { id }).FirstOrDefault();
+                log = db.Query<Log>("SELECT *FROM log Where log_id=@id", new { id }).FirstOrDefault();
             }
-            return user;
+            return log;
         }
-        public User Create(User user)
+        public Log Create(Log log)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "INSERT INTO user (login, password,mail,is_admin,user_details) VALUES(@login, @password,@mail,@is_admin,@user_details);"+
+                var sqlQuery = "INSERT INTO log (ta_id, date,satatus,task_id,user_id) VALUES(@ta_id, @date,@satatus,@task_id,@user_id);" +
                     " SELECT CAST(SCOPE_IDENTITY() as int)";
-                int userId = db.Query<int>(sqlQuery, user).FirstOrDefault();
-                user.user_id= userId;
+                int logId = db.Query<int>(sqlQuery, log).FirstOrDefault();
+                log.log_id = logId;
             }
-            return user;
+            return log;
         }
         public void Delete(int id)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "DELETE FROM user Where user_id=@id";
+                var sqlQuery = "DELETE FROM log Where log_id=@id";
                 db.Execute(sqlQuery, new { id });
             }
         }
-        public void Update(User user)
+        public void Update(Log log)
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "Update user set login=@login, password=@password,mail=@mail,is_admin=@is_admin,user_details=@user_details";
-                db.Execute(sqlQuery, user);
+                var sqlQuery = "Update log set ta_id=@ta_id, date=@date,satatus=@status,task_id=@task_id,user_id=@user_id";
+                db.Execute(sqlQuery, log);
             }
         }
     }
