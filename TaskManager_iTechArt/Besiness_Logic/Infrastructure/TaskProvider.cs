@@ -38,5 +38,9 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
             Mapper.Initialize(cfg => cfg.CreateMap<Task, TaskDTO>());
             return Mapper.Map<Task, TaskDTO>(task);
         }
+        public void Update(TaskDTO taskDTO)
+        {
+
+        }
     }
 }
