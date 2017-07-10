@@ -6,13 +6,13 @@ using System.Linq;
 using Dapper;
 using System.Configuration;
 using TaskManager_ITechArt.DAL.Entities;
-
+using TaskManager_ITechArt.DAL.Interfaces;
 namespace TaskManager_ITechArt.DAL.Repository
 {
-    public class CategoryRepository
+    public class CategoryRepository:IRepository<Category>
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public List<Category> GetCategory()
+        public List<Category> GetAll()
         {
             List<Category> categorys = new List<Category>();
             using (IDbConnection db = new SqlConnection(connectionString))

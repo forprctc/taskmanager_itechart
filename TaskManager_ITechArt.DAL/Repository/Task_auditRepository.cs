@@ -6,13 +6,14 @@ using System.Linq;
 using Dapper;
 using System.Configuration;
 using TaskManager_ITechArt.DAL.Entities;
+using TaskManager_ITechArt.DAL.Interfaces;
 
 namespace TaskManager_ITechArt.DAL.Repository
 {
-    public class Task_auditRepository
+    public class Task_auditRepository : IRepository<Task_audit>
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public List<Task_audit> GetTask_audits()
+        public List<Task_audit> GetAll()
         {
             List<Task_audit> task_audits = new List<Task_audit>();
             using (IDbConnection db = new SqlConnection(connectionString))

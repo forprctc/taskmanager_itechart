@@ -6,10 +6,11 @@ using System.Linq;
 using Dapper;
 using System.Configuration;
 using TaskManager_ITechArt.DAL.Entities;
+using TaskManager_ITechArt.DAL.Interfaces;
 
 namespace TaskManager_ITechArt.DAL.Repository
 {
-    public class TaskRepository
+    public class TaskRepository : IRepository<Task>
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         public List<Task> GetTasks()
