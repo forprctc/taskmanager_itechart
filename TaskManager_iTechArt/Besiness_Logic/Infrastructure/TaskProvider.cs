@@ -11,22 +11,41 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
     public class TaskProvider
     {
         TaskRepository taskRepository = new TaskRepository();
-        
+        LogRepository logRepostitory = new LogRepository();
         public void MakeTask(TaskDTO taskDTO)
         {
-            Task task = new Task
+            DateTime date = new DateTime();
+            try
             {
-                title = taskDTO.title,
-                category = taskDTO.category,
-                status = taskDTO.status,
-                period = taskDTO.period,
-                descriptions = taskDTO.descriptions,
-                owner_id = taskDTO.owner_id,
-                task_beginning = taskDTO.task_beginning,
-                task_details = taskDTO.task_details,
-                task_end = taskDTO.task_end
-            };
-            taskRepository.Create(task);
+                Task task = new Task
+                {
+                    title = taskDTO.title,
+                    category = taskDTO.category,
+                    status = taskDTO.status,
+                    period = taskDTO.period,
+                    descriptions = taskDTO.descriptions,
+                    owner_id = taskDTO.owner_id,
+                    task_beginning = taskDTO.task_beginning,
+                    task_details = taskDTO.task_details,
+                    task_end = taskDTO.task_end
+                };
+                task=taskRepository.Create(task);
+                LogDTO logDTO = new LogDTO
+                {
+                    status = "execution",
+                    date = date.Date,
+                    task_id=task.task_id,
+                    user_id=task.owner_id,
+                    ta_id
+                    
+                };
+
+            }
+            catch(IOException exception)
+            {
+
+            }
+          
         }
         public IEnumerable<TaskDTO> GetTasks()
         {
