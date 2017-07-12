@@ -12,8 +12,10 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
     {
         TaskRepository taskRepository = new TaskRepository();
         LogRepository logRepostitory = new LogRepository();
+        Task_auditRepository task_auditRepository = new Task_auditRepository();
         public void MakeTask(TaskDTO taskDTO)
         {
+            
             DateTime date = new DateTime();
             try
             {
@@ -30,18 +32,30 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
                     task_end = taskDTO.task_end
                 };
                 task=taskRepository.Create(task);
+                Task_auditDTO task_auditDTO = new Task_auditDTO
+                {
+                    status = "inactive",
+                    user_id = task.owner_id,
+                    queue = 1
+                };
+                Mapper.Initialize(cfg => cfg.CreateMap<Task_auditDTO, Task_audit>());
+                Task_audit task_audit = Mapper.Map<Task_auditDTO, Task_audit>(task_auditDTO);
+                task_audit = task_auditRepository.Create(task_audit);
                 LogDTO logDTO = new LogDTO
                 {
-                    status = "execution",
+                    status = "created",
                     date = date.Date,
-                    task_id=task.task_id,
-                    user_id=task.owner_id,
-                    ta_id
+                    task_id = task.task_id,
+                    user_id = task.owner_id,
+                    ta_id = task_audit.ta_id
                     
                 };
+                Mapper.Initialize(cfg => cfg.CreateMap<LogDTO, Log>());
+                Log log = Mapper.Map<LogDTO, Log>(logDTO);
+                logRepostitory.Create(log); 
 
             }
-            catch(IOException exception)
+            catch
             {
 
             }
