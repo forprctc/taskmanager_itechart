@@ -40,7 +40,15 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
         }
         public void Update(TaskDTO taskDTO)
         {
-
+           
+            Mapper.Initialize(cfg => cfg.CreateMap<TaskDTO, Task>());
+            Task task=Mapper.Map<TaskDTO, Task>(taskDTO);
+            taskRepository.Update(task);
         }
+        public void Delete(TaskDTO taskDTO)
+        {
+            taskRepository.Delete(taskDTO.task_id);
+        }
+        
     }
 }
