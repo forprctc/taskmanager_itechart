@@ -46,7 +46,7 @@ namespace TaskManager_ITechArt.DAL.Repository
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "DELETE FROM task_audit Where ta_id=@id";
+                var sqlQuery = "DELETE FROM task_audit Where user_id=@id";
                 db.Execute(sqlQuery, new { id });
             }
         }
@@ -54,7 +54,7 @@ namespace TaskManager_ITechArt.DAL.Repository
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "Update task_audit set user_id=@user_id,status=@status,queue=@queue";
+                var sqlQuery = "Update task_audit set user_id=@user_id,status=@status,queue=@queue  Where user_id=@user_id";
                 db.Execute(sqlQuery, task_audit);
             }
         }

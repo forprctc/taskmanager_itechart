@@ -13,7 +13,7 @@ namespace TaskManager_ITechArt.DAL.Repository
     public class TaskRepository : IRepository<Task>
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public List<Task> GetTasks()
+        public List<Task> GetAll()
         {
             List<Task> tasks = new List<Task>();
             using (IDbConnection db = new SqlConnection(connectionString))

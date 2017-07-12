@@ -11,6 +11,7 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
     public class TaskProvider
     {
         TaskRepository taskRepository = new TaskRepository();
+        
         public void MakeTask(TaskDTO taskDTO)
         {
             Task task = new Task
@@ -30,7 +31,7 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
         public IEnumerable<TaskDTO> GetTasks()
         {
             Mapper.Initialize(cfg => cfg.CreateMap<Task, TaskDTO>());
-            return Mapper.Map<IEnumerable<Task>, List<TaskDTO>>(taskRepository.GetTasks());
+            return Mapper.Map<IEnumerable<Task>, List<TaskDTO>>(taskRepository.GetAll());
         }
         public TaskDTO GetTask(int id)
         {
@@ -39,8 +40,7 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
             return Mapper.Map<Task, TaskDTO>(task);
         }
         public void Update(TaskDTO taskDTO)
-        {
-           
+        {           
             Mapper.Initialize(cfg => cfg.CreateMap<TaskDTO, Task>());
             Task task=Mapper.Map<TaskDTO, Task>(taskDTO);
             taskRepository.Update(task);

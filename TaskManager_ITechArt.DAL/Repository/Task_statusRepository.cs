@@ -54,7 +54,7 @@ namespace TaskManager_ITechArt.DAL.Repository
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "Update task_status set status=@status, status_details=@status_details";
+                var sqlQuery = "Update task_status set status=@status, status_details=@status_details Where status_id=@status_id";
                 db.Execute(sqlQuery, task_status);
             }
         }
