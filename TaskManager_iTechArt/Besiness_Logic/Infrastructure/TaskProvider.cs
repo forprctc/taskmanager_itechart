@@ -6,14 +6,16 @@ using TaskManager_iTechArt.Besiness_Logic.DTO;
 using TaskManager_ITechArt.DAL.Repository;
 using TaskManager_ITechArt.DAL.Entities;
 using AutoMapper;
+using TaskManager_iTechArt.Besiness_Logic.Interface;
+
 namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
 {
-    public class TaskProvider
+    public class TaskProvider:IProvider<TaskDTO>
     {
         TaskRepository taskRepository = new TaskRepository();
         LogRepository logRepostitory = new LogRepository();
         Task_auditRepository task_auditRepository = new Task_auditRepository();
-        public void MakeTask(TaskDTO taskDTO, bool isEvent)
+        public  void Make(TaskDTO taskDTO, bool isEvent)
         {
             
             DateTime date = new DateTime();
@@ -70,12 +72,12 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
             }
           
         }
-        public IEnumerable<TaskDTO> GetTasks()
+        public IEnumerable<TaskDTO> GetAll()
         {
             Mapper.Initialize(cfg => cfg.CreateMap<Task, TaskDTO>());
             return Mapper.Map<IEnumerable<Task>, List<TaskDTO>>(taskRepository.GetAll());
         }
-        public TaskDTO GetTask(int id)
+        public TaskDTO Get(int id)
         {
             var task = taskRepository.Get(id);
             Mapper.Initialize(cfg => cfg.CreateMap<Task, TaskDTO>());
@@ -99,6 +101,15 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
         }
         public void Delete(TaskDTO taskDTO)
         {
+            DateTime date = new DateTime();
+            LogDTO logDTO = new LogDTO
+            {
+                user_id = taskDTO.owner_id,
+                task_id = taskDTO.task_id,
+                status = 3,
+                date = date.Date
+
+            };
             taskRepository.Delete(taskDTO.task_id);
         }
         
