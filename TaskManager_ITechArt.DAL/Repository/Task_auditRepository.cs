@@ -6,13 +6,14 @@ using System.Linq;
 using Dapper;
 using System.Configuration;
 using TaskManager_ITechArt.DAL.Entities;
+using TaskManager_ITechArt.DAL.Interfaces;
 
 namespace TaskManager_ITechArt.DAL.Repository
 {
-    public class Task_auditRepository
+    public class Task_auditRepository : IRepository<Task_audit>
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public List<Task_audit> GetTask_audits()
+        public List<Task_audit> GetAll()
         {
             List<Task_audit> task_audits = new List<Task_audit>();
             using (IDbConnection db = new SqlConnection(connectionString))
@@ -34,7 +35,7 @@ namespace TaskManager_ITechArt.DAL.Repository
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "INSERT INTO task_audit (user_id, status,queue) VALUES(@user_id, @status,@queue);" +
+                var sqlQuery = "INSERT INTO task_audit (user_id,task_id, status,queue) VALUES(@user_id,@task_id, @status,@queue);" +
                     " SELECT CAST(SCOPE_IDENTITY() as int)";
                 int task_auditId = db.Query<int>(sqlQuery, task_audit).FirstOrDefault();
                 task_audit.ta_id = task_auditId;
@@ -45,7 +46,7 @@ namespace TaskManager_ITechArt.DAL.Repository
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "DELETE FROM task_audit Where ta_id=@id";
+                var sqlQuery = "DELETE FROM task_audit Where user_id=@id";
                 db.Execute(sqlQuery, new { id });
             }
         }
@@ -53,7 +54,7 @@ namespace TaskManager_ITechArt.DAL.Repository
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "Update task_audit set user_id=@user_id,status=@status,queue=@queue";
+                var sqlQuery = "Update task_audit set user_id=@user_id,status=@status,queue=@queue ,task_id=@task_id Where user_id=@user_id";
                 db.Execute(sqlQuery, task_audit);
             }
         }

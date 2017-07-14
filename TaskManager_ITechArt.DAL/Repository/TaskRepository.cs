@@ -6,13 +6,14 @@ using System.Linq;
 using Dapper;
 using System.Configuration;
 using TaskManager_ITechArt.DAL.Entities;
+using TaskManager_ITechArt.DAL.Interfaces;
 
 namespace TaskManager_ITechArt.DAL.Repository
 {
-    public class TaskRepository
+    public class TaskRepository : IRepository<Task>
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public List<Task> GetTasks()
+        public List<Task> GetAll()
         {
             List<Task> tasks = new List<Task>();
             using (IDbConnection db = new SqlConnection(connectionString))
@@ -46,7 +47,7 @@ namespace TaskManager_ITechArt.DAL.Repository
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "DELETE FROM task Where id=@id";
+                var sqlQuery = "DELETE FROM task Where task_id=@id";
                 db.Execute(sqlQuery, new { id });
             }
         }
@@ -55,7 +56,7 @@ namespace TaskManager_ITechArt.DAL.Repository
             using (IDbConnection db = new SqlConnection(connectionString))
             {
                 var sqlQuery = "Update task set title=@title, task_beginning=@task_beginning,"+
-                    "task_end=@task_end,period=@period,descriptions=@descriptions,category=@category,owner_id=@owner_id,status=@status,task_details=@task_details";
+                    "task_end=@task_end,period=@period,descriptions=@descriptions,category=@category,owner_id=@owner_id,status=@status,task_details=@task_details where task_id=@task_id";
                 db.Execute(sqlQuery, task);
             }
         }

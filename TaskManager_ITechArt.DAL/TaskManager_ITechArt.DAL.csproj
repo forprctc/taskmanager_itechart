@@ -51,6 +51,7 @@
     <Compile Include="Entities\Task_audit.cs" />
     <Compile Include="Entities\Task_status.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CategoryRepository.cs" />
     <Compile Include="Repository\LogRepository.cs" />

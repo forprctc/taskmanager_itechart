@@ -6,13 +6,14 @@ using System.Linq;
 using Dapper;
 using System.Configuration;
 using TaskManager_ITechArt.DAL.Entities;
+using TaskManager_ITechArt.DAL.Interfaces;
 
 namespace TaskManager_ITechArt.DAL.Repository
 {
-    public class UserRepository
+    public class UserRepository : IRepository<User>
     {
         string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        public List<User> GetUsers()
+        public List<User> GetAll()
         {
             List<User> users = new List<User>();
             using (IDbConnection db = new SqlConnection(connectionString))
@@ -53,7 +54,7 @@ namespace TaskManager_ITechArt.DAL.Repository
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "Update user set login=@login, password=@password,mail=@mail,is_admin=@is_admin,user_details=@user_details";
+                var sqlQuery = "Update user set login=@login, password=@password,mail=@mail,is_admin=@is_admin,user_details=@user_details Where user_id=@user_id";
                 db.Execute(sqlQuery, user);
             }
         }
