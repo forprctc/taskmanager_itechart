@@ -13,7 +13,7 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
         TaskRepository taskRepository = new TaskRepository();
         LogRepository logRepostitory = new LogRepository();
         Task_auditRepository task_auditRepository = new Task_auditRepository();
-        public void MakeTask(TaskDTO taskDTO)
+        public void MakeTask(TaskDTO taskDTO, bool isEvent)
         {
             
             DateTime date = new DateTime();
@@ -32,9 +32,18 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
                     task_end = taskDTO.task_end
                 };
                 task=taskRepository.Create(task);
+                int takePart=0;
+                if(isEvent)
+                {
+                     takePart = 1;
+                }
+                else
+                {
+                     takePart = 2;
+                }
                 Task_auditDTO task_auditDTO = new Task_auditDTO
                 {
-                    status = "inactive",
+                    status = takePart,
                     user_id = task.owner_id,
                     queue = 1
                 };
@@ -43,7 +52,7 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
                 task_audit = task_auditRepository.Create(task_audit);
                 LogDTO logDTO = new LogDTO
                 {
-                    status = "created",
+                    status = 1,
                     date = date.Date,
                     task_id = task.task_id,
                     user_id = task.owner_id,
@@ -73,7 +82,8 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
             return Mapper.Map<Task, TaskDTO>(task);
         }
         public void Update(TaskDTO taskDTO)
-        {           
+        {
+            var task_audit = from i in task_auditRepository.GetAll() where i.task_id == taskDTO.task_id select i;         
             Mapper.Initialize(cfg => cfg.CreateMap<TaskDTO, Task>());
             Task task=Mapper.Map<TaskDTO, Task>(taskDTO);
             taskRepository.Update(task);

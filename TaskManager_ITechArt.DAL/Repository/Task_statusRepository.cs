@@ -27,7 +27,7 @@ namespace TaskManager_ITechArt.DAL.Repository
             Task_status task_status = null;
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                task_status = db.Query<Task_status>("SELECT *FROM Task_status Where status_id=@id", new { id }).FirstOrDefault();
+                task_status = db.Query<Task_status>("SELECT *FROM task_status Where status_id=@id", new { id }).FirstOrDefault();
             }
             return task_status;
         }

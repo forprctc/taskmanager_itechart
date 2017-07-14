@@ -10,7 +10,8 @@ namespace TaskManager_ITechArt.DAL.Entities
     {
         public int ta_id { get; set; }
         public int user_id { get; set; }
-        public string status { get; set; }
+        public int task_id { get; set; }
+        public int  status { get; set; }
         public int queue { get; set; }
     }
 }

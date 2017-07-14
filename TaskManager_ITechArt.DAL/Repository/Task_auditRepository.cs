@@ -35,7 +35,7 @@ namespace TaskManager_ITechArt.DAL.Repository
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "INSERT INTO task_audit (user_id, status,queue) VALUES(@user_id, @status,@queue);" +
+                var sqlQuery = "INSERT INTO task_audit (user_id,task_id, status,queue) VALUES(@user_id,@task_id, @status,@queue);" +
                     " SELECT CAST(SCOPE_IDENTITY() as int)";
                 int task_auditId = db.Query<int>(sqlQuery, task_audit).FirstOrDefault();
                 task_audit.ta_id = task_auditId;
@@ -54,7 +54,7 @@ namespace TaskManager_ITechArt.DAL.Repository
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = "Update task_audit set user_id=@user_id,status=@status,queue=@queue  Where user_id=@user_id";
+                var sqlQuery = "Update task_audit set user_id=@user_id,status=@status,queue=@queue ,task_id=@task_id Where user_id=@user_id";
                 db.Execute(sqlQuery, task_audit);
             }
         }
