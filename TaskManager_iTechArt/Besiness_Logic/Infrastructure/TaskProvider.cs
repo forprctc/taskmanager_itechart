@@ -55,8 +55,8 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
                     status = 1,
                     date = date.Date,
                     task_id = task.task_id,
-                    user_id = task.owner_id,
-                    ta_id = task_audit.ta_id
+                    user_id = task.owner_id
+                    
                     
                 };
                 Mapper.Initialize(cfg => cfg.CreateMap<LogDTO, Log>());
@@ -81,9 +81,18 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
             Mapper.Initialize(cfg => cfg.CreateMap<Task, TaskDTO>());
             return Mapper.Map<Task, TaskDTO>(task);
         }
-        public void Update(TaskDTO taskDTO)
+        public void Update(TaskDTO taskDTO, UserDTO userDTO)
         {
-            var task_audit = from i in task_auditRepository.GetAll() where i.task_id == taskDTO.task_id select i;         
+            
+            DateTime date = new DateTime();
+            LogDTO logDTO = new LogDTO
+            {
+                user_id = userDTO.user_id,
+                task_id = taskDTO.task_id,
+                status = taskDTO.status,
+                date = date.Date
+
+            };       
             Mapper.Initialize(cfg => cfg.CreateMap<TaskDTO, Task>());
             Task task=Mapper.Map<TaskDTO, Task>(taskDTO);
             taskRepository.Update(task);
