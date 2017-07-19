@@ -140,7 +140,9 @@
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.15.0-build58334.js" />
     <Content Include="scripts\ai.0.15.0-build58334.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -151,6 +153,7 @@
     <Compile Include="Besiness_Logic\DTO\Task_statusDTO.cs" />
     <Compile Include="Besiness_Logic\DTO\UserDTO.cs" />
     <Compile Include="Besiness_Logic\Infrastructure\TaskProvider.cs" />
+    <Compile Include="Besiness_Logic\Infrastructure\UserProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -191,7 +194,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50508</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

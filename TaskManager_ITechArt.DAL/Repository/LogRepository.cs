@@ -11,8 +11,9 @@ using TaskManager_ITechArt.DAL.Interfaces;
 namespace TaskManager_ITechArt.DAL.Repository
 {
     public class LogRepository : IRepository<Log>
+       
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["taskmanager_db"].ConnectionString;
         public List<Log> GetAll()
         {
             List<Log> logs = new List<Log>();

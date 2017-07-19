@@ -12,7 +12,7 @@ namespace TaskManager_ITechArt.DAL.Repository
 {
     public class Task_statusRepository : IRepository<Task_status>
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["taskmanager_db"].ConnectionString;
         public List<Task_status> GetAll()
         {
             List<Task_status> task_statuss = new List<Task_status>();

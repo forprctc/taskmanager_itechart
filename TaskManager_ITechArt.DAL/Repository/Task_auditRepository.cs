@@ -12,7 +12,7 @@ namespace TaskManager_ITechArt.DAL.Repository
 {
     public class Task_auditRepository : IRepository<Task_audit>
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["taskmanager_db"].ConnectionString;
         public List<Task_audit> GetAll()
         {
             List<Task_audit> task_audits = new List<Task_audit>();
@@ -38,7 +38,7 @@ namespace TaskManager_ITechArt.DAL.Repository
                 var sqlQuery = "INSERT INTO task_audit (user_id,task_id, status,queue) VALUES(@user_id,@task_id, @status,@queue);" +
                     " SELECT CAST(SCOPE_IDENTITY() as int)";
                 int task_auditId = db.Query<int>(sqlQuery, task_audit).FirstOrDefault();
-                task_audit.ta_id = task_auditId;
+
             }
             return task_audit;
         }

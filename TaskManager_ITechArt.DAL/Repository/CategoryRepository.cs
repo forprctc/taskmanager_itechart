@@ -11,7 +11,7 @@ namespace TaskManager_ITechArt.DAL.Repository
 {
     public class CategoryRepository:IRepository<Category>
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["taskmanager_db"].ConnectionString;
         public List<Category> GetAll()
         {
             List<Category> categorys = new List<Category>();

@@ -12,7 +12,7 @@ namespace TaskManager_ITechArt.DAL.Repository
 {
     public class UserRepository : IRepository<User>
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["taskmanager_db"].ConnectionString;
         public List<User> GetAll()
         {
             List<User> users = new List<User>();

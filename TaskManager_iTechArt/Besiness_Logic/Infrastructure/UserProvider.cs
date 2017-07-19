@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using TaskManager_iTechArt.Besiness_Logic.DTO;
-using TaskManager_iTechArt.Besiness_Logic.Interface;
+
 
 namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
 {
-    public class UserProvider : IProvider<UserDTO>
+    public class UserProvider
     {
         public void Delete(UserDTO item)
         {

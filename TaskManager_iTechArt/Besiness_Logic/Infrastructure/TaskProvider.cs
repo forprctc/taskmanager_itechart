@@ -6,18 +6,18 @@ using TaskManager_iTechArt.Besiness_Logic.DTO;
 using TaskManager_ITechArt.DAL.Repository;
 using TaskManager_ITechArt.DAL.Entities;
 using AutoMapper;
-using TaskManager_iTechArt.Besiness_Logic.Interface;
+using System.Configuration;
 
 namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
 {
-    public class TaskProvider:IProvider<TaskDTO>
+    public class TaskProvider
     {
         TaskRepository taskRepository = new TaskRepository();
         LogRepository logRepostitory = new LogRepository();
         Task_auditRepository task_auditRepository = new Task_auditRepository();
-        public  void Make(TaskDTO taskDTO, bool isEvent)
+        public void Make(TaskDTO taskDTO, bool isEvent)
         {
-            
+
             DateTime date = new DateTime();
             try
             {
@@ -33,15 +33,15 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
                     task_details = taskDTO.task_details,
                     task_end = taskDTO.task_end
                 };
-                task=taskRepository.Create(task);
-                int takePart=0;
-                if(isEvent)
+                task = taskRepository.Create(task);
+                int takePart = 0;
+                if (isEvent)
                 {
-                     takePart = 1;
+                    takePart = 1;
                 }
                 else
                 {
-                     takePart = 2;
+                    takePart = 2;
                 }
                 Task_auditDTO task_auditDTO = new Task_auditDTO
                 {
@@ -58,19 +58,19 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
                     date = date.Date,
                     task_id = task.task_id,
                     user_id = task.owner_id
-                    
-                    
+
+
                 };
                 Mapper.Initialize(cfg => cfg.CreateMap<LogDTO, Log>());
                 Log log = Mapper.Map<LogDTO, Log>(logDTO);
-                logRepostitory.Create(log); 
+                logRepostitory.Create(log);
 
             }
             catch
             {
 
             }
-          
+
         }
         public IEnumerable<TaskDTO> GetAll()
         {
@@ -85,7 +85,7 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
         }
         public void Update(TaskDTO taskDTO, UserDTO userDTO)
         {
-            
+
             DateTime date = new DateTime();
             LogDTO logDTO = new LogDTO
             {
@@ -94,9 +94,9 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
                 status = taskDTO.status,
                 date = date.Date
 
-            };       
+            };
             Mapper.Initialize(cfg => cfg.CreateMap<TaskDTO, Task>());
-            Task task=Mapper.Map<TaskDTO, Task>(taskDTO);
+            Task task = Mapper.Map<TaskDTO, Task>(taskDTO);
             taskRepository.Update(task);
         }
         public void Delete(TaskDTO taskDTO)
@@ -112,6 +112,6 @@ namespace TaskManager_iTechArt.Besiness_Logic.Infrastructure
             };
             taskRepository.Delete(taskDTO.task_id);
         }
-        
+
     }
 }
